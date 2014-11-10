@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>点击图片下拉展示大图相册效果</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<style>
+*,
+*:after,
+*:before{margin:0;padding:0;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-font-smoothing:antialiased;-o-font-smoothing:antialiased;font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+
+ul{list-style:none;}
+img{vertical-align:bottom;}
+.wrapper{max-width:700px;margin:0 auto; border:1px solid blue}
+.logo{margin:25px 0;text-align:center;}
+.logo-img{max-width:95%; }
+/* SuperBox*/.superbox-list{display:inline-block;*display:inline;zoom:1;width:12.5%;}
+.superbox-img{max-width:100%;width:100%;cursor:pointer;}
+.superbox-show{text-align:center;position:relative;background:#333;box-shadow:inset 0 1px 5px #111;-webkit-box-shadow:inset 0 1px 5px #111;-moz-box-shadow:inset 0 1px 5px #111;width:100%;float:left;padding:25px 0;display:none;}
+.superbox-current-img{max-width:100%;box-shadow:0 1px 4px #222;border:1px solid yellow;}
+.superbox-img:hover{opacity:0.8;}
+.superbox-float{float:left;}
+.superbox-close{opacity:0.7;cursor:pointer;position:absolute;top:25px;right:25px;background:url(http://demo.lanrenzhijia.com/2014/album1030/images/close.png) no-repeat center center;width:35px;height:35px;z-index:999;}
+.superbox-close:hover{opacity:1;}
+@media only screen and (min-width: 320px){.superbox-list{width:50%;}}
+@media only screen and (min-width: 486px){.superbox-list{width:25%;}}
+@media only screen and (min-width: 768px){.superbox-list{width:16.66666667%;}}
+@media only screen and (min-width: 700px){.superbox-list{width:25%;}}
+</style>
+</head>
+<body>
+<div class="wrapper">    
+    <!-- SuperBox -->
+    <div class="superbox">
+        <div class="superbox-list">
+            <img src="img/p0.jpg" data-img="img/p0.jpg" alt="" class="superbox-img" >
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/p2.jpg" data-img="img/p2.jpg" alt="" class="superbox-img" >
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/p3.jpg" data-img="img/p3.jpg" alt="" class="superbox-img" >
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/p4.jpg" data-img="img/p4.jpg" alt="" class="superbox-img">
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/p5.jpg" data-img="img/p5.jpg" alt="" class="superbox-img" >
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/p6.jpg" data-img="img/p6.jpg" alt="" class="superbox-img" >
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/p7.jpg" data-img="img/p7.jpg" alt="" class="superbox-img">
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/p8.jpg" data-img="img/p8.jpg" alt="" class="superbox-img" >
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/p9.jpg" data-img="img/p9.jpg" alt="" class="superbox-img" >
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/p10.jpg" data-img="img/p10.jpg" alt="" class="superbox-img" >
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/02.jpg" data-img="img/02.jpg" alt="" class="superbox-img" >
+        </div><!--
+        --><div class="superbox-list">
+            <img src="img/03.jpg" data-img="img/03.jpg" alt="" class="superbox-img" >
+        </div><!--
+        -->
+        <div class="superbox-float"></div>
+    </div>
+    <!-- /SuperBox -->
+    <div style="height:300px;"></div>
+</div>	
+<script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
+<script>
+;(function($) {
+	$.fn.SuperBox = function(options) {		
+		var superbox      = $('<div class="superbox-show"></div>');
+		var superboximg   = $('<img src="" class="superbox-current-img">');
+		var superboxclose = $('<div class="superbox-close"></div>');
+		console.log("\u767e\u5ea6\u641c\u7d22\u3010\u7d20\u6750\u5bb6\u56ed\u3011\u4e0b\u8f7d\u66f4\u591aJS\u7279\u6548\u4ee3\u7801");
+		superbox.append(superboximg).append(superboxclose);		
+		return this.each(function() {			
+			$('.superbox-list').click(function() {
+				var currentimg = $(this).find('.superbox-img');
+				var imgData = currentimg.data('img');
+				superboximg.attr('src', imgData);
+				
+				if($('.superbox-current-img').css('opacity') == 0) {
+					$('.superbox-current-img').animate({opacity: 1});
+				}
+				
+				if ($(this).next().hasClass('superbox-show')) {
+					superbox.toggle();
+				} else {
+					superbox.insertAfter(this).css('display', 'block');
+				}
+				$('html, body').animate({
+					scrollTop:superbox.position().top - currentimg.width()
+				}, 'medium');			
+			});	
+			$('.superbox-close').live('click', function() {
+				$('.superbox-current-img').animate({opacity: 0}, 200, function() {
+					$('.superbox-show').slideUp();
+				});
+			});			
+		});
+	};
+})(jQuery);
+$(function() {
+    $('.superbox').SuperBox();
+});
+</script>
+<!-- 代码部分end -->	
+</body>
+</html>
